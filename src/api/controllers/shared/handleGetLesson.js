@@ -14,7 +14,6 @@ const handleGetLesson = async (req, res, next) => {
             const [lesson, hasQuizz] = await Promise.all(
                 [
                     lessonModel.findOne({ courseId, _id: lessonId }, { lessonContent: true, name: true, viewsNumber: true, description: true }),
-                    // quizModel.findOne({ courseId, lessonId, questions: { $exists: true, $ne: [] } })
                     quizModel.exists({ courseId, lessonId, questions: { $exists: true, $ne: [] } })
                 ]
             )
