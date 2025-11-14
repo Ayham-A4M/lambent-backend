@@ -8,14 +8,18 @@ const handleGetLessons = require('../controllers/shared/handleGetLessons');
 const handleGetLesson = require('../controllers/shared/handleGetLesson');
 const handleUpdateProgress = require('../controllers/user/handleUpdateProgress');
 const handleJoiningCourse = require('../controllers/user/handleJoiningCourse');
+const handleGetQuiz = require('../controllers/shared/handleGetQuiz');
+const handleCompleteQuiz = require('../controllers/user/handleCompleteQuiz');
+const handleGetDashboard = require('../controllers/user/handleGetDashboard');
 
 router.get('/courses', verifyLearner, handleGetCourses);
 router.get('/courses/:courseId/lessons', verifyLearner, hasAccessToCourse, handleGetLessons);
 router.get('/courses/:courseId/lessons/:lessonId', verifyLearner, hasAccessToCourse, handleGetLesson);
-
+router.get('/courses/:courseId/lessons/:lessonId/quiz', verifyLearner, hasAccessToCourse, handleGetQuiz);
+router.get('/dashboard',verifyLearner,handleGetDashboard);
 
 router.post('/courses/:courseId/join', verifyLearner, handleJoiningCourse);
-
+router.post('/courses/:courseId/lessons/:lessonId/quiz/:quizId/completed',verifyLearner,handleCompleteQuiz);
 
 
 
