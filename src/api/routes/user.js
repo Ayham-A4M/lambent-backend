@@ -13,11 +13,13 @@ const handleCompleteQuiz = require('../controllers/user/handleCompleteQuiz');
 const handleGetDashboard = require('../controllers/user/handleGetDashboard');
 const learningTimeValidator=require('../validators/user/learningTime.validator');
 const handleUpdateLearningTime = require('../controllers/user/handleUpdateLearningTime');
+const handleGetBadges = require('../controllers/user/handleGetBadges');
 router.get('/courses', verifyLearner, handleGetCourses);
 router.get('/courses/:courseId/lessons', verifyLearner, hasAccessToCourse, handleGetLessons);
 router.get('/courses/:courseId/lessons/:lessonId', verifyLearner, hasAccessToCourse, handleGetLesson);
 router.get('/courses/:courseId/lessons/:lessonId/quiz', verifyLearner, hasAccessToCourse, handleGetQuiz);
 router.get('/dashboard',verifyLearner,handleGetDashboard);
+router.get('/badges',verifyLearner,handleGetBadges);
 
 router.post('/courses/:courseId/join', verifyLearner, handleJoiningCourse);
 router.post('/courses/:courseId/lessons/:lessonId/quiz/:quizId/completed',verifyLearner,handleCompleteQuiz);
