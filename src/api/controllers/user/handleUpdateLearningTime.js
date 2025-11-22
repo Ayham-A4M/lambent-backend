@@ -1,6 +1,7 @@
 const learningTimeModel = require("../../models/learningTime");
 const dayjs = require("dayjs");
 const isoWeek = require("dayjs/plugin/isoWeek");
+const { checkLearningTimeBadges } = require("../../../services/BadgeService");
 dayjs.extend(isoWeek);
 const getLearningTime = (dayIdx, learningTime) => {
   const days = [
@@ -30,7 +31,7 @@ const handleUpdateLearningTime = async (req, res, next) => {
     const year = new Date().getFullYear();
     const weekIndex = dayjs().isoWeek();
     const dayIdx = new Date().getDay();
-
+    // const response=await checkLearningTimeBadges(userId,,learningTime)
     const isExisting = await learningTimeModel.exists({ year, weekIndex });
     if (isExisting) {
       const result = await learningTimeModel.findOneAndUpdate(
@@ -44,11 +45,11 @@ const handleUpdateLearningTime = async (req, res, next) => {
           arrayFilters: [{ "elem.dayIdx": dayIdx }],
         }
       );
-      return res.status(200).send({});
     } else {
       const creating = await new learningTimeModel({ weekIndex, year, monthIndex: new Date().getMonth(), userId, learningTime: getLearningTime(dayIdx, learningTime) }).save();
-      return res.status(200).send({});
     }
+    const response=await checkLearningTimeBadges(userId)
+    return res.status(200).send({});
   } catch (err) {
     next(err);
   }

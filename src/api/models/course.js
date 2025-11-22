@@ -8,7 +8,7 @@ const courseSchema = new mongoose.Schema({
     type: { type: String, required: true },
     totalLessons: { type: Number, default: 0, max: 70 },
     totalLearners: { type: Number, default: 0 },
-    instructorId: { type: mongoose.Schema.Types.ObjectId, ref: 'instructor', required: true },
+    instructorId: { type: mongoose.Types.ObjectId, ref: 'instructor', required: true },
     comingSoon: { type: Boolean, default: true },
     rating: { type: Number, default: 0 },
     createdAt: { type: Date, default: Date.now },
