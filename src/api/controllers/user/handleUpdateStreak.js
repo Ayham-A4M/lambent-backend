@@ -1,10 +1,10 @@
 const userModel = require('../../models/user');
+const {cehckStreakBadges}=require("../../../services/BadgeService");
 const handleUpdateStreak = async (req, res, next) => {
     try {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         const userId = res.locals.id;
-        console.log(userId);
         const userFromDb = await userModel.findById(userId);
         const user=userFromDb;
 
@@ -31,6 +31,7 @@ const handleUpdateStreak = async (req, res, next) => {
                     user.currentStreakSerial += 1;
                 }
                 const response = await user.save();
+                await cehckStreakBadges(userId);
                 if (response) {
                     return res.status(200).send({ msg: "you collect the streak for today" });
                 }
@@ -43,9 +44,6 @@ const handleUpdateStreak = async (req, res, next) => {
                 }
             }
         }
-
-
-
     } catch (err) {
         next(err);
     }

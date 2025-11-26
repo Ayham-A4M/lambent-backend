@@ -16,7 +16,12 @@ const handleGetLesson = async (req, res, next) => {
       const [lesson, hasQuizz, hasCompletedQuiz] = await Promise.all([
         // lessonModel.findOne({ courseId, _id: lessonId }, { lessonContent: true, name: true, lessonNumber: true, viewsNumber: true, description: true }),
         lessonModel.aggregate([
-          { $match: { courseId: new mongoose.Types.ObjectId(courseId), _id: new mongoose.Types.ObjectId(lessonId) } },
+          {
+            $match: {
+              courseId: new mongoose.Types.ObjectId(courseId),
+              _id: new mongoose.Types.ObjectId(lessonId),
+            },
+          },
           {
             $lookup: {
               from: "coursesProgress",
@@ -38,6 +43,7 @@ const handleGetLesson = async (req, res, next) => {
               lessonContent: true,
               name: true,
               lessonNumber: true,
+              pdfUrl: true,
               viewsNumber: true,
               description: true,
               hasCompleted: { $gt: [{ $size: "$hasCompleted" }, 0] },
@@ -52,7 +58,10 @@ const handleGetLesson = async (req, res, next) => {
       response.hasQuizz = hasQuizz;
       response.hasCompletedQuiz = hasCompletedQuiz;
     } else if (role == "instructor") {
-      const lesson = await lessonModel.findOne({ courseId, _id: lessonId }, { lessonContent: true, name: true, viewsNumber: true, description: true });
+      const lesson = await lessonModel.findOne(
+        { courseId, _id: lessonId },
+        { lessonContent: true, name: true, viewsNumber: true, pdfUrl: true, description: true }
+      );
       response.lesson = lesson;
     }
 

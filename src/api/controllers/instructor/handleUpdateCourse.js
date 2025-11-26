@@ -1,5 +1,4 @@
 const courseModel = require('../../models/course');
-const AppError = require('../../utils/appError');
 const handleUpdateCourse = async (req, res, next) => {
     try {
         const instructorId = res.locals.id;
