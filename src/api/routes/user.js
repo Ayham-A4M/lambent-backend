@@ -14,6 +14,9 @@ const handleGetDashboard = require('../controllers/user/handleGetDashboard');
 const learningTimeValidator=require('../validators/user/learningTime.validator');
 const handleUpdateLearningTime = require('../controllers/user/handleUpdateLearningTime');
 const handleGetBadges = require('../controllers/user/handleGetBadges');
+const upload=require("../utils/imageUpload");
+
+
 router.get('/courses', verifyLearner, handleGetCourses);
 router.get('/courses/:courseId/lessons', verifyLearner, hasAccessToCourse, handleGetLessons);
 router.get('/courses/:courseId/lessons/:lessonId', verifyLearner, hasAccessToCourse, handleGetLesson);
@@ -26,7 +29,7 @@ router.post('/courses/:courseId/lessons/:lessonId/quiz/:quizId/completed',verify
 
 
 
-router.put('/learningTime',learningTimeValidator,verifyLearner,handleUpdateLearningTime);
+router.post('/learningTime',upload.none(),learningTimeValidator,verifyLearner,handleUpdateLearningTime);
 router.put('/progress/:courseId', verifyLearner, handleUpdateProgress);
 router.put('/streak', verifyLearner, handleUpdateStreak);
 

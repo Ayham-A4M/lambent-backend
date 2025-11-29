@@ -16,8 +16,7 @@ const checkLearningTimeBadges = async (userId) => {
             totalMinutes: { $sum: "$learningTime.learningTime" },
           },
         },
-      ])
-      .lean(),
+      ]),
     completedBadge.find({ userId }, { _id: true }).lean(),
   ]);
   let badgesIds = [];
